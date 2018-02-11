@@ -2,6 +2,7 @@ const express = require("express");
 
 //Import files
 const HELPERS = require("./helpers");
+const model = require("./models/mongoose");
 
 const app = express();
 
@@ -32,5 +33,4 @@ app.post("/updates",(req,res)=>{
 app.listen(1111,()=>{
     HELPERS.onStart();
     console.log("Server running");
-
 });

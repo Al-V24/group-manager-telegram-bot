@@ -112,6 +112,7 @@ function unbanUser(chatID,userID) {
         })
 }
 
+//Add new saved msg
 
 module.exports = {
     onStart,getBotInfo,getWebhookInfo,setWebhook,sendMessage,changeTitle,kickUser,unbanUser
