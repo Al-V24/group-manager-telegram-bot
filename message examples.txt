@@ -29,3 +29,35 @@ When Bot Marie Joined:
        first_name: 'Marie',
        username: 'BanhammerMarie_bot' } ] }
 
+When reply to a message:
+{ message_id: 411,
+  from:
+   { id: 213334884,
+     is_bot: false,
+     first_name: 'Abhishek',
+     last_name: 'Ranjan',
+     username: 'abhishekr700',
+     language_code: 'en-US' },
+  chat:
+   { id: -283421476,
+     title: 'Hejr',
+     type: 'group',
+     all_members_are_administrators: false },
+  date: 1518881728,
+  reply_to_message:
+   { message_id: 410,
+     from:
+      { id: 338336935,
+        is_bot: false,
+        first_name: 'Boo',
+        last_name: 'Dam',
+        username: 'Boodam',
+        language_code: 'en-IN' },
+     chat:
+      { id: -283421476,
+        title: 'Hejr',
+        type: 'group',
+        all_members_are_administrators: false },
+     date: 1518881707,
+     text: 'Hey dude' },
+  text: 'kick' }

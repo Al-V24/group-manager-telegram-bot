@@ -175,6 +175,8 @@ function sendWelcome(user,chat) {
     sendMessage(chat.id,text);
 }
 
+
+
 module.exports = {
     onStart,getBotInfo,getWebhookInfo,setWebhook,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome
 };

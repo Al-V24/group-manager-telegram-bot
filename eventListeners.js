@@ -113,3 +113,13 @@ eventObj.on("title", (chatID, msgID, params, msg) => {
             HELPERS.sendMessage(chatID, PRESETS.TITLE_PRIVATE_CHAT_ERR, msgID);
     }
 });
+
+//Event listener for kick command
+eventObj.on("kick",(chatID,msgID,params,msg)=>{
+    if(msg.reply_to_message){
+        HELPERS.kickUser(chatID,msg.reply_to_message.from.id);
+    }
+    else {
+        HELPERS.sendMessage(chatID,PRESETS.KICK_TAG_SOMEONE,msgID);
+    }
+});
