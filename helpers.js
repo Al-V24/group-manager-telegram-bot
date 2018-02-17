@@ -175,10 +175,20 @@ function sendWelcome(user,chat) {
     sendMessage(chat.id,text);
 }
 
-
+function unpinMessage(chatID) {
+    botapi.post("/unpinChatMessage",{
+        chat_id: chatID
+    })
+        .then((resp)=>{
+            console.log("unpinned");
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
 
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,setWebhook,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome
+    onStart,getBotInfo,getWebhookInfo,setWebhook,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage
 };
 
 

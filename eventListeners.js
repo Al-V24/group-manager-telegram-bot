@@ -123,3 +123,8 @@ eventObj.on("kick",(chatID,msgID,params,msg)=>{
         HELPERS.sendMessage(chatID,PRESETS.KICK_TAG_SOMEONE,msgID);
     }
 });
+
+//Event listener for unpinning message
+eventObj.on("unpin",(chatID,msgID)=>{
+    HELPERS.unpinMessage(chatID);
+});
