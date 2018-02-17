@@ -1,8 +1,9 @@
 const express = require("express");
 
 //Import files
+require("./eventListeners");
 const HELPERS = require("./helpers");
-const model = require("./models/mongoose");
+const models = require("./models/mongoose");
 
 const app = express();
 
@@ -14,23 +15,35 @@ app.use(express.urlencoded({
 app.use("/info", require("./routes/info"));
 
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("home page");
 });
 
-app.post("/updates",(req,res)=>{
+app.post("/updates", (req, res) => {
     // console.log("post on update route");
-    console.log(req.body.message.text);
+    console.log(req.body.message);
     let msg = req.body.message;
     res.sendStatus(204);
-    HELPERS.sendMessage(msg.from.id,msg.text);
-    if(msg.text && msg.text[0] === 'z')
-        HELPERS.changeTitle(msg.chat.id,msg.text);
-    if(msg.text && msg.text === "kick")
-        HELPERS.kickUser(msg.chat.id,msg.from.id);
+    // HELPERS.sendMessage(msg.chat.id,msg.text);
+
+    if (msg.new_chat_member) {
+        HELPERS.sendWelcome(msg.new_chat_member,msg.chat);
+    }
+    else if (msg.text) {
+
+        //Handle commands.Commands start with  '/'
+        if (msg.text[0] === '/') {
+            HELPERS.processCommands(msg);
+        }
+
+        //Saved message template. Saved Msg start with  '#'
+        if (msg.text[0] === '#') {
+            HELPERS.sendSavedMsg(msg.text, msg.chat.id);
+        }
+    }
 });
 
-app.listen(1111,()=>{
+app.listen(1111, () => {
     HELPERS.onStart();
     console.log("Server running");
 });

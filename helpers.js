@@ -1,6 +1,8 @@
 const axios = require("axios");
 
 const CONFIG = require("./config");
+const models = require("./models/mongoose");
+const eventObj = require("./eventObj");
 
 //Returns base url with bot API key appended
 function getUrl() {
@@ -8,7 +10,7 @@ function getUrl() {
 }
 
 //New axiom instance with baseurl from getUrl method
-var botapi = axios.create({
+const botapi = axios.create({
     baseURL: getUrl()
 });
 
@@ -60,7 +62,7 @@ function sendMessage(chatID,text,replyTo,replyMarkup) {
 
     botapi.post("/sendMessage", msg)
         .then((sentmsg)=>{
-            console.log(sentmsg.data);
+            // console.log(sentmsg.data);
         })
         .catch((err) => {
             console.log(err);
@@ -113,9 +115,68 @@ function unbanUser(chatID,userID) {
 }
 
 //Add new saved msg
+//TODO: this
+
+//Process Command
+function processCommands(msg) {
+    console.log("new command");
+    //remove starting '/'
+    let commandMsg = msg.text.slice(1).split(" ");
+    //first word is command
+    let command = commandMsg[0];
+    let params = commandMsg.slice(1).join(" ");
+    console.log("Command: ",command," Params: ",params);
+    eventObj.emit(command,msg.chat.id,msg.message_id,params,msg);
+}
+
+// Send saved message
+function sendSavedMsg(message,chatID) {
+    console.log("sending a saved msg");
+
+    //remove the '#' in front
+    let savedMessage = message.slice(1);
+    console.log(savedMessage);
+    models.savedmsg.findOne({
+        chat_id: chatID,
+        text: savedMessage
+    })
+        .then((savMsg)=>{
+            if(savMsg)
+                sendMessage(chatID,savMsg.message);
+            else {
+                console.log("No such saved message !");
+            }
+        })
+}
+
+// Function to send all the saved message list
+function sendAllSaved(chatID,msgID) {
+    models.savedmsg.find({
+        chat_id: chatID
+    })
+        .then((msges)=>{
+        let text = "";
+            msges.forEach((msg)=>{
+                text+= "#" + msg.text;
+                text+="\n";
+            });
+            console.log(text);
+            if(text)
+                sendMessage(chatID,text,msgID);
+            else {
+                console.log("No saved messages");
+            }
+        })
+}
+
+// Function to send welcome message when a member joins
+function sendWelcome(user,chat) {
+    let text =  `Welcome ${user.first_name} ${user.last_name}(${user.id}). Feel free to explore around ${chat.title}`;
+    sendMessage(chat.id,text);
+}
 
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,setWebhook,sendMessage,changeTitle,kickUser,unbanUser
-}
+    onStart,getBotInfo,getWebhookInfo,setWebhook,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome
+};
 
 

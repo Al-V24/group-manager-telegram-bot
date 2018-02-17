@@ -5,6 +5,7 @@ const CONFIG = require("../config");
 
 //Import DB Models
 const savedmsg = require("./savedmsg");
+const rules = require("./rules");
 
 mongoose.connect(`mongodb://${CONFIG.MONGO.HOST}:${CONFIG.MONGO.PORT}/${CONFIG.MONGO.DB}`)
     .then(() => {
@@ -18,5 +19,5 @@ mongoose.Promise = global.Promise;
 
 //Expose the models for using elsewhere
 module.exports = {
-  savedmsg
+  savedmsg,rules
 };

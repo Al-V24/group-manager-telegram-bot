@@ -1,0 +1,31 @@
+When Bot Marie Joined:
+{ message_id: 400,
+  from:
+   { id: 213334884,
+     is_bot: false,
+     first_name: 'Abhishek',
+     last_name: 'Ranjan',
+     username: 'abhishekr700',
+     language_code: 'en-US' },
+  chat:
+   { id: -277353581,
+     title: 'sdkvkbnnfvf dfnvgbkjfdv',
+     type: 'group',
+     all_members_are_administrators: false },
+  date: 1518879516,
+  new_chat_participant:
+   { id: 389340481,
+     is_bot: true,
+     first_name: 'Marie',
+     username: 'BanhammerMarie_bot' },
+  new_chat_member:
+   { id: 389340481,
+     is_bot: true,
+     first_name: 'Marie',
+     username: 'BanhammerMarie_bot' },
+  new_chat_members:
+   [ { id: 389340481,
+       is_bot: true,
+       first_name: 'Marie',
+       username: 'BanhammerMarie_bot' } ] }
+
