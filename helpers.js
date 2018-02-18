@@ -96,7 +96,7 @@ function kickUser(chatID,userID) {
             console.log("User kicked: ",resp.data);
         })
         .catch((err) => {
-            console.log(err);
+            console.log(err.response.data);
         })
 }
 
@@ -232,6 +232,10 @@ function warnUser(chatID,userID) {
                     // console.log("found");
                     found = true;
                     i.numOfWarns++;
+                    if(i.numOfWarns === 3){
+                        kickUser(chatID,userID);
+                        warnitem.warnings.splice(warnitem.warnings.indexOf(i),1);
+                    }
                     break;
                 }
             }
@@ -249,7 +253,7 @@ function warnUser(chatID,userID) {
                     console.log("New entry to warnings");
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.log(err.data);
                 })
         })
 
