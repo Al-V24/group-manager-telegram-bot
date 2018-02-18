@@ -175,6 +175,7 @@ function sendWelcome(user,chat) {
     sendMessage(chat.id,text);
 }
 
+// Function to unpin a message in a supergrouo or channel
 function unpinMessage(chatID) {
     botapi.post("/unpinChatMessage",{
         chat_id: chatID
@@ -187,8 +188,22 @@ function unpinMessage(chatID) {
         });
 }
 
+// Function to pin a message in a supergroup or channel
+function pinMessage(chatID,msgID) {
+    botapi.post("/pinChatMessage",{
+        chat_id: chatID,
+        message_id: msgID
+    })
+        .then((resp)=>{
+            console.log("Message pinned: ",resp.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+}
+
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,setWebhook,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage
+    onStart,getBotInfo,getWebhookInfo,setWebhook,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage
 };
 
 

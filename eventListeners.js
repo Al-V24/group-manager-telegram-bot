@@ -125,6 +125,27 @@ eventObj.on("kick",(chatID,msgID,params,msg)=>{
 });
 
 //Event listener for unpinning message
-eventObj.on("unpin",(chatID,msgID)=>{
-    HELPERS.unpinMessage(chatID);
+eventObj.on("unpin",(chatID,msgID,paramas,msg)=>{
+    if(msg.chat.type === "supergroup") {
+        HELPERS.unpinMessage(chatID);
+    }
+    else {
+        HELPERS.sendMessage(chatID, PRESETS.PIN_SUPERGROUP_ONLY,msgID);
+    }
+});
+
+//Event listener for pinning message
+eventObj.on("pin",(chatID,msgID,params,msg)=>{
+    console.log("Pin event fired");
+    if(msg.chat.type === "supergroup") {
+        if (msg.reply_to_message) {
+            HELPERS.pinMessage(chatID, msg.reply_to_message.message_id);
+        }
+        else {
+            HELPERS.sendMessage(chatID, PRESETS.PIN_NO_MSG, msgID);
+        }
+    }
+    else {
+        HELPERS.sendMessage(chatID, PRESETS.PIN_SUPERGROUP_ONLY,msgID);
+    }
 });
