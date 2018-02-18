@@ -61,3 +61,62 @@ When reply to a message:
      date: 1518881707,
      text: 'Hey dude' },
   text: 'kick' }
+
+  Bot added to new grp:
+  { message_id: 431,
+    from:
+     { id: 213334884,
+       is_bot: false,
+       first_name: 'Abhishek',
+       last_name: 'Ranjan',
+       username: 'abhishekr700',
+       language_code: 'en-IN' },
+    chat:
+     { id: -274719315,
+       title: 'Brjdnfnf',
+       type: 'group',
+       all_members_are_administrators: true },
+    date: 1518943040,
+    new_chat_participant:
+     { id: 447483027,
+       is_bot: true,
+       first_name: 'UltimateGrouper',
+       username: 'UltimateGrouperBot' },
+    new_chat_member:
+     { id: 447483027,
+       is_bot: true,
+       first_name: 'UltimateGrouper',
+       username: 'UltimateGrouperBot' },
+    new_chat_members:
+     [ { id: 447483027,
+         is_bot: true,
+         first_name: 'UltimateGrouper',
+         username: 'UltimateGrouperBot' } ] }
+
+
+
+When Bot left grp:
+{ message_id: 433,
+  from:
+   { id: 213334884,
+     is_bot: false,
+     first_name: 'Abhishek',
+     last_name: 'Ranjan',
+     username: 'abhishekr700',
+     language_code: 'en-IN' },
+  chat:
+   { id: -274719315,
+     title: 'Brjdnfnf',
+     type: 'group',
+     all_members_are_administrators: true },
+  date: 1518948311,
+  left_chat_participant:
+   { id: 447483027,
+     is_bot: true,
+     first_name: 'UltimateGrouper',
+     username: 'UltimateGrouperBot' },
+  left_chat_member:
+   { id: 447483027,
+     is_bot: true,
+     first_name: 'UltimateGrouper',
+     username: 'UltimateGrouperBot' } }

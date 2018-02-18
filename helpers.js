@@ -119,7 +119,7 @@ function unbanUser(chatID,userID) {
 
 //Process Command
 function processCommands(msg) {
-    console.log("new command");
+    // console.log("new command");
     //remove starting '/'
     let commandMsg = msg.text.slice(1).split(" ");
     //first word is command
@@ -171,6 +171,7 @@ function sendAllSaved(chatID,msgID) {
 
 // Function to send welcome message when a member joins
 function sendWelcome(user,chat) {
+    console.log("Sending welcome");
     let text =  `Welcome ${user.first_name} ${user.last_name}(${user.id}). Feel free to explore around ${chat.title}`;
     sendMessage(chat.id,text);
 }
@@ -181,7 +182,7 @@ function unpinMessage(chatID) {
         chat_id: chatID
     })
         .then((resp)=>{
-            console.log("unpinned");
+            console.log("Unpinned: ",resp);
         })
         .catch((err) => {
             console.log(err);
@@ -202,8 +203,60 @@ function pinMessage(chatID,msgID) {
         })
 }
 
+// Function to do work when bot first added to group
+function createGroupEntry(chatID) {
+    console.log("Creating a group entry");
+    models.warns.create({
+        chat_id: chatID,
+        warnings: []
+    })
+        .then(()=>{
+            console.log("Group Entry created");
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
+// Function to warn a user
+function warnUser(chatID,userID) {
+    models.warns.findOne({
+        chat_id: chatID
+    })
+        .then((warnitem)=>{
+            // let arr = warnitem.warnings;
+            let found = false;
+            for(let i of warnitem.warnings){
+                // console.log("userid:",typeof userID," i:",typeof i.user_id);
+                if(i.user_id == userID){
+                    // console.log("found");
+                    found = true;
+                    i.numOfWarns++;
+                    break;
+                }
+            }
+            if(found === false){
+                // console.log("not found");
+                let a = {
+                    user_id: userID,
+                    numOfWarns: 1
+                };
+                warnitem.warnings.push(a);
+            }
+
+            warnitem.save()
+                .then(()=>{
+                    console.log("New entry to warnings");
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        })
+
+}
+
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,setWebhook,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage
+    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser
 };
 
 
