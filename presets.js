@@ -5,5 +5,6 @@ module.exports = {
     KICK_TAG_SOMEONE: "Please reply to a msg by the user to kick him/her",
     PIN_NO_MSG: "Please reply to a message to pin",
     PIN_SUPERGROUP_ONLY: "Sorry, pinning works in supergroups only",
-    WARN_TAG_SOMEONE: "Please reply to a msg by the user to warn him/her"
+    WARN_TAG_SOMEONE: "Please reply to a msg by the user to warn him/her",
+    STICKER_ON_OFF: "Please write on or off after command."
 };

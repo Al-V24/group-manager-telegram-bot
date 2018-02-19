@@ -7,6 +7,7 @@ const CONFIG = require("../config");
 const savedmsg = require("./savedmsg");
 const rules = require("./rules");
 const warns = require("./warns");
+const groupConfigs = require("./groupConfigs");
 
 mongoose.connect(`mongodb://${CONFIG.MONGO.HOST}:${CONFIG.MONGO.PORT}/${CONFIG.MONGO.DB}`)
     .then(() => {
@@ -21,5 +22,5 @@ mongoose.Promise = global.Promise;
 
 //Expose the models for using elsewhere
 module.exports = {
-  savedmsg,rules,warns
+  savedmsg,rules,warns,groupConfigs
 };

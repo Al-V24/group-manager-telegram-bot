@@ -159,3 +159,19 @@ eventObj.on("warn",(chatID,msgID,params,msg)=>{
         HELPERS.sendMessage(chatID,PRESETS.WARN_TAG_SOMEONE,msgID);
     }
 });
+
+//Event listener for sticker control
+eventObj.on("sticker",(chatID,msgID,params)=>{
+    let setting = params.split(" ")[0];
+    if(setting === "on"){
+        console.log("Turning sticker control ON");
+        HELPERS.stickerControlSet(chatID,true);
+    }
+    else if(setting === "off"){
+        console.log("Turning sticker control OFF");
+        HELPERS.stickerControlSet(chatID,false);
+    }
+    else {
+        HELPERS.sendMessage(chatID,PRESETS.STICKER_ON_OFF,msgID);
+    }
+});

@@ -211,6 +211,12 @@ function createGroupEntry(chatID) {
         warnings: []
     })
         .then(()=>{
+            return models.groupConfigs.create({
+                chat_id: chatID,
+                stickerControl: false
+            })
+        })
+        .then(()=>{
             console.log("Group Entry created");
         })
         .catch((err) => {
@@ -259,8 +265,37 @@ function warnUser(chatID,userID) {
 
 }
 
+//Function to set sticker control
+function stickerControlSet(chatID,val) {
+    models.groupConfigs.findOne({
+        chat_id: chatID
+    })
+        .then((config)=>{
+            config.stickerControl = val;
+            config.save();
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+// Function to delete a message
+function deleteMessage(chatID,msgID) {
+    botapi.post("/deleteMessage",{
+        chat_id: chatID,
+        message_id: msgID
+    })
+        .then((resp)=>{
+            console.log("Deleted message: ",resp);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser
+    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage
 };
 
 

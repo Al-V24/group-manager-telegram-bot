@@ -120,3 +120,32 @@ When Bot left grp:
      is_bot: true,
      first_name: 'UltimateGrouper',
      username: 'UltimateGrouperBot' } }
+
+
+Send Sticker on group:
+{ message_id: 514,
+  from:
+   { id: 213334884,
+     is_bot: false,
+     first_name: 'Abhishek',
+     last_name: 'Ranjan',
+     username: 'abhishekr700',
+     language_code: 'en-IN' },
+  chat:
+   { id: -283421476,
+     title: 'Hejr',
+     type: 'group',
+     all_members_are_administrators: false },
+  date: 1519051832,
+  sticker:
+   { width: 512,
+     height: 475,
+     emoji: '😂',
+     set_name: 'pepefrogstickers',
+     thumb:
+      { file_id: 'AAQEABMSPSYZAASR-qeOiRgmO2UwAAIC',
+        file_size: 4634,
+        width: 128,
+        height: 119 },
+     file_id: 'CAADBAADhwIAAsaGQAQG8syXJ831mgI',
+     file_size: 21888 } }
