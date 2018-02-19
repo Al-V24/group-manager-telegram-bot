@@ -14,6 +14,7 @@ mongoose.connect(`mongodb://${CONFIG.MONGO.HOST}:${CONFIG.MONGO.PORT}/${CONFIG.M
     })
     .catch((err) => {
         console.log("Mongoose connection error due to: ", err);
+        process.exit();
     });
 
 mongoose.Promise = global.Promise;
