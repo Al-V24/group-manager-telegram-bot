@@ -9,4 +9,5 @@
 /unpin  
 /kick  
 /warn  
-"#saved"
+"#saved"  
+/sticker on/off  

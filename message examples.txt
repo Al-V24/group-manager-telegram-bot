@@ -149,3 +149,29 @@ Send Sticker on group:
         height: 119 },
      file_id: 'CAADBAADhwIAAsaGQAQG8syXJ831mgI',
      file_size: 21888 } }
+
+ Send gif on group:
+ { message_id: 554,
+   from:
+    { id: 213334884,
+      is_bot: false,
+      first_name: 'Abhishek',
+      last_name: 'Ranjan',
+      username: 'abhishekr700',
+      language_code: 'en-IN' },
+   chat:
+    { id: -283421476,
+      title: 'Hejr',
+      type: 'group',
+      all_members_are_administrators: false },
+   date: 1519056314,
+   document:
+    { file_name: 'giphy.mp4',
+      mime_type: 'video/mp4',
+      thumb:
+       { file_id: 'AAQEABMMmvgZAAQwWYtMUsn5yXkjAAIC',
+         file_size: 2425,
+         width: 90,
+         height: 90 },
+      file_id: 'CgADBAAD26kAAjMcZAfNcwpHoUSR5wI',
+      file_size: 47601 } }

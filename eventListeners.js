@@ -1,7 +1,7 @@
 const models = require("./models/mongoose");
 const HELPERS = require("./helpers");
 const PRESETS = require("./presets");
-const eventObj = require("./eventObj");
+const eventObj = require("./eventObj").em;
 
 //Event listener for add command to add new saved message.
 eventObj.on("add", (chatID, msgID, params) => {

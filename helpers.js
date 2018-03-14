@@ -2,17 +2,17 @@ const axios = require("axios");
 
 const CONFIG = require("./config");
 const models = require("./models/mongoose");
-const eventObj = require("./eventObj");
-
-//Returns base url with bot API key appended
-function getUrl() {
-    return CONFIG.BOT.API + CONFIG.BOT.API_KEY;
-}
+const eventObj = require("./eventObj").em;
+const callbackEveObj = require("./eventObj").callbackEvents;
 
 //New axiom instance with baseurl from getUrl method
 const botapi = axios.create({
     baseURL: getUrl()
 });
+
+/****************
+ *  MISSCALANEOUS
+ ****************/
 
 //To be called on server startup
 function onStart() {
@@ -20,6 +20,15 @@ function onStart() {
     setWebhook();
 
 }
+
+//Returns base url with bot API key appended
+function getUrl() {
+    return CONFIG.BOT.API + CONFIG.BOT.API_KEY;
+}
+
+/**********************
+ *  DIRECT API FUNCTIONS
+ **********************/
 
 //Set the webhook. Calls /setWebhook api method
 function setWebhook() {
@@ -114,8 +123,93 @@ function unbanUser(chatID,userID) {
         })
 }
 
-//Add new saved msg
-//TODO: this
+// Function to delete a message
+function deleteMessage(chatID,msgID) {
+    botapi.post("/deleteMessage",{
+        chat_id: chatID,
+        message_id: msgID
+    })
+        .then((resp)=>{
+            console.log("Deleted message: ",resp);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+// Function to create inline Keyboard button
+function createInlineBtn(text,url,callback_data,switch_inline_query) {
+    let btn = {};
+    if(text){
+        btn.text = text;
+    }
+    if(url){
+        btn.url = url;
+    }
+    if(callback_data){
+        btn.callback_data = callback_data;
+    }
+    if(switch_inline_query){
+        btn.switch_inline_query = switch_inline_query;
+    }
+
+    return btn;
+}
+
+// Function to unpin a message in a supergrouo or channel
+function unpinMessage(chatID) {
+    botapi.post("/unpinChatMessage",{
+        chat_id: chatID
+    })
+        .then((resp)=>{
+            console.log("Unpinned: ",resp);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
+// Function to pin a message in a supergroup or channel
+function pinMessage(chatID,msgID) {
+    botapi.post("/pinChatMessage",{
+        chat_id: chatID,
+        message_id: msgID
+    })
+        .then((resp)=>{
+            console.log("Message pinned: ",resp.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+}
+
+// Function to answer a callback query
+function answerCallback(callback_query_id,text,show_alert,url) {
+    let answer = {
+        callback_query_id: callback_query_id
+    };
+    if(text){
+        answer.text = text;
+    }
+    if(show_alert){
+        answer.show_alert = show_alert
+    }
+    if(url){
+        answer.url = url;
+    }
+    // console.log(answer);
+    botapi.post("/answerCallbackQuery",answer)
+        .then((data)=>{
+            // console.log(data);
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        });
+}
+
+/************************
+ * BOT SPECIFIC FUNCTIONS
+ ***********************/
 
 //Process Command
 function processCommands(msg) {
@@ -128,6 +222,17 @@ function processCommands(msg) {
     console.log("Command: ",command," Params: ",params);
     eventObj.emit(command,msg.chat.id,msg.message_id,params,msg);
 }
+
+// Process callbacks
+function processCallbacks(callback) {
+    if(callback.data){
+        console.log("Callback event: ",callback.data);
+        callbackEveObj.emit(callback.data,callback);
+    }
+}
+
+//Add new saved msg
+//TODO: this
 
 // Send saved message
 function sendSavedMsg(message,chatID) {
@@ -173,34 +278,17 @@ function sendAllSaved(chatID,msgID) {
 function sendWelcome(user,chat) {
     console.log("Sending welcome");
     let text =  `Welcome ${user.first_name} ${user.last_name}(${user.id}). Feel free to explore around ${chat.title}`;
-    sendMessage(chat.id,text);
-}
 
-// Function to unpin a message in a supergrouo or channel
-function unpinMessage(chatID) {
-    botapi.post("/unpinChatMessage",{
-        chat_id: chatID
-    })
-        .then((resp)=>{
-            console.log("Unpinned: ",resp);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-}
+    let delBtn = createInlineBtn("Delete ❌",null,"delWelcome");
+    let keyboard = {
 
-// Function to pin a message in a supergroup or channel
-function pinMessage(chatID,msgID) {
-    botapi.post("/pinChatMessage",{
-        chat_id: chatID,
-        message_id: msgID
-    })
-        .then((resp)=>{
-            console.log("Message pinned: ",resp.data);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+        inline_keyboard: [
+            [ delBtn ]
+        ]
+    };
+
+
+    sendMessage(chat.id,text,null,keyboard);
 }
 
 // Function to do work when bot first added to group
@@ -239,7 +327,9 @@ function warnUser(chatID,userID) {
                     found = true;
                     i.numOfWarns++;
                     if(i.numOfWarns === 3){
+                        //Kick user on 3rd warn
                         kickUser(chatID,userID);
+                        //Remove user's entry from warnings
                         warnitem.warnings.splice(warnitem.warnings.indexOf(i),1);
                     }
                     break;
@@ -279,23 +369,8 @@ function stickerControlSet(chatID,val) {
         })
 }
 
-// Function to delete a message
-function deleteMessage(chatID,msgID) {
-    botapi.post("/deleteMessage",{
-        chat_id: chatID,
-        message_id: msgID
-    })
-        .then((resp)=>{
-            console.log("Deleted message: ",resp);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-}
-
-
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage
+    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,answerCallback,processCallbacks
 };
 
 

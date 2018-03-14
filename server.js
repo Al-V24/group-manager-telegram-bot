@@ -2,6 +2,7 @@ const express = require("express");
 
 //Import files
 require("./eventListeners");
+require("./callbackEventListeners");
 const HELPERS = require("./helpers");
 const models = require("./models/mongoose");
 const CONFIG = require("./config");
@@ -20,12 +21,25 @@ app.get("/", (req, res) => {
     res.send("home page");
 });
 
-app.post("/updates", (req, res) => {
+app.post("/updates", (req, res, next) => {
     // console.log("post on update route");
-    console.log(req.body.message);
+    // console.log(req.body);
+
+    //If callback , process it
+    let callback = req.body.callback_query;
+    if(callback){
+        console.log("Callback: ", callback);
+        res.sendStatus(204);
+        HELPERS.processCallbacks(callback);
+        return next();
+    }
+
+    //Proceed to message processing
     let msg = req.body.message;
+    console.log("message: ",msg);
     res.sendStatus(204);
     // HELPERS.sendMessage(msg.chat.id,msg.text);
+
     if (msg.text) {
 
         //Handle commands.Commands start with  '/'
