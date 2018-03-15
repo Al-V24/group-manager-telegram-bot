@@ -5,7 +5,7 @@ const models = require("./models/mongoose");
 const eventObj = require("./eventObj").em;
 const callbackEveObj = require("./eventObj").callbackEvents;
 
-//New axiom instance with baseurl from getUrl method
+//New axiom instance with base url from getUrl method
 const botapi = axios.create({
     baseURL: getUrl()
 });
@@ -130,7 +130,7 @@ function deleteMessage(chatID,msgID) {
         message_id: msgID
     })
         .then((resp)=>{
-            console.log("Deleted message: ",resp);
+            console.log("Deleted message: ",resp.data);
         })
         .catch((err) => {
             console.log(err);
@@ -369,8 +369,22 @@ function stickerControlSet(chatID,val) {
         })
 }
 
+//Function to set photo control
+function photoControlSet(chatID,val) {
+    models.groupConfigs.findOne({
+        chat_id: chatID
+    })
+        .then((config)=>{
+            config.photoControl = val;
+            config.save();
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,answerCallback,processCallbacks
+    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,answerCallback,processCallbacks,photoControlSet
 };
 
 

@@ -175,3 +175,19 @@ eventObj.on("sticker",(chatID,msgID,params)=>{
         HELPERS.sendMessage(chatID,PRESETS.STICKER_ON_OFF,msgID);
     }
 });
+
+//Event listener for photo control
+eventObj.on("photos",(chatID,msgID,params)=>{
+    let setting = params.split(" ")[0];
+    if(setting === "on"){
+        console.log("Turning photo control ON");
+        HELPERS.photoControlSet(chatID,true);
+    }
+    else if(setting === "off"){
+        console.log("Turning photo control OFF");
+        HELPERS.photoControlSet(chatID,false);
+    }
+    else {
+        HELPERS.sendMessage(chatID,PRESETS.PHOTO_ON_OFF,msgID);
+    }
+})

@@ -65,6 +65,19 @@ app.post("/updates", (req, res, next) => {
                 console.log(err);
             })
     }
+    else if(msg.photo){
+        models.groupConfigs.findOne({
+            chat_id: msg.chat.id
+        })
+            .then((config)=>{
+                if(config.photoControl === true){
+                    HELPERS.deleteMessage(msg.chat.id,msg.message_id);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
     else if (msg.new_chat_member) {
         console.log("New chat member");
         // console.log(typeof msg.new_chat_member.id," ",typeof CONFIG.BOT.ID);
@@ -80,10 +93,10 @@ app.post("/updates", (req, res, next) => {
     }
     else if(msg.left_chat_member){
         if(msg.left_chat_member.id === CONFIG.BOT.ID){
-            //Bot left chat,delete stuff
+            /// TODO: Bot left chat,delete stuff
         }
         else {
-            //Some member left
+            // TODO: Some member left
         }
     }
 

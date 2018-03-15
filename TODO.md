@@ -2,8 +2,11 @@
 
 1. Custom welcome message
 2. ~~Emoji processing~~
-3. Delete option with welcome msg
+3. ~~Delete option with welcome msg~~
 4. ~~Kick user on 3 warns~~
+5. Video/videonote control
+6. Image control
+7. Voice control
 
 ##### Less important
 1. Don't send welcome message on self join
