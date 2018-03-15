@@ -383,8 +383,22 @@ function photoControlSet(chatID,val) {
         })
 }
 
+//Function to set photo control
+function voiceControlSet(chatID,val) {
+    models.groupConfigs.findOne({
+        chat_id: chatID
+    })
+        .then((config)=>{
+            config.voiceControl = val;
+            config.save();
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,answerCallback,processCallbacks,photoControlSet
+    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,answerCallback,processCallbacks,photoControlSet,voiceControlSet
 };
 
 

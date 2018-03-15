@@ -5,7 +5,7 @@
 3. ~~Delete option with welcome msg~~
 4. ~~Kick user on 3 warns~~
 5. Video/videonote control
-6. Image control
+6. ~~Image control~~
 7. Voice control
 
 ##### Less important

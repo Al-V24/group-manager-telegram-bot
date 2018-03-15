@@ -190,4 +190,20 @@ eventObj.on("photos",(chatID,msgID,params)=>{
     else {
         HELPERS.sendMessage(chatID,PRESETS.PHOTO_ON_OFF,msgID);
     }
-})
+});
+
+//Event listener for voice note control
+eventObj.on("voice",(chatID,msgID,params)=>{
+    let setting = params.split(" ")[0];
+    if(setting === "on"){
+        console.log("Turning voice note control ON");
+        HELPERS.voiceControlSet(chatID,true);
+    }
+    else if(setting === "off"){
+        console.log("Turning voice note control OFF");
+        HELPERS.voiceControlSet(chatID,false);
+    }
+    else {
+        HELPERS.sendMessage(chatID,PRESETS.VOICE_ON_OFF,msgID);
+    }
+});

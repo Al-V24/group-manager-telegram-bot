@@ -6,6 +6,10 @@ const GroupConfigsSchema = mongoose.Schema({
     photoControl: {
         type: Boolean,
         default: false
+    },
+    voiceControl: {
+        type: Boolean,
+        default: false
     }
 });
 

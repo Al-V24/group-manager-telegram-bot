@@ -7,5 +7,6 @@ module.exports = {
     PIN_SUPERGROUP_ONLY: "Sorry, pinning works in supergroups only",
     WARN_TAG_SOMEONE: "Please reply to a msg by the user to warn him/her",
     STICKER_ON_OFF: "Please write on or off after command.",
-    PHOTO_ON_OFF: "Please write on or off after command."
+    PHOTO_ON_OFF: "Please write on or off after command.",
+    VOICE_ON_OFF: "Please write on or off after command."
 };
