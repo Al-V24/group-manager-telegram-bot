@@ -207,3 +207,19 @@ eventObj.on("voice",(chatID,msgID,params)=>{
         HELPERS.sendMessage(chatID,PRESETS.VOICE_ON_OFF,msgID);
     }
 });
+
+//Event listener for video note control
+eventObj.on("video",(chatID,msgID,params)=>{
+    let setting = params.split(" ")[0];
+    if(setting === "on"){
+        console.log("Turning video note control ON");
+        HELPERS.videoControlSet(chatID,true);
+    }
+    else if(setting === "off"){
+        console.log("Turning video note control OFF");
+        HELPERS.videoControlSet(chatID,false);
+    }
+    else {
+        HELPERS.sendMessage(chatID,PRESETS.VIDEO_ON_OFF,msgID);
+    }
+});

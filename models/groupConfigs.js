@@ -10,6 +10,10 @@ const GroupConfigsSchema = mongoose.Schema({
     voiceControl: {
         type: Boolean,
         default: false
+    },
+    videoControl: {
+        type: Boolean,
+        default: false
     }
 });
 

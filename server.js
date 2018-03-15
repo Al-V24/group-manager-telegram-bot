@@ -91,6 +91,19 @@ app.post("/updates", (req, res, next) => {
                 console.log(err);
             })
     }
+    else if(msg.video || msg.video_note){
+        models.groupConfigs.findOne({
+            chat_id: msg.chat.id
+        })
+            .then((config)=>{
+                if(config.videoControl === true){
+                    HELPERS.deleteMessage(msg.chat.id,msg.message_id);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
     else if (msg.new_chat_member) {
         console.log("New chat member");
         // console.log(typeof msg.new_chat_member.id," ",typeof CONFIG.BOT.ID);
