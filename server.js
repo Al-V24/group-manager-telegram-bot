@@ -111,6 +111,7 @@ app.post("/updates", (req, res, next) => {
             //Bot added to new grp, do work
             console.log("Bot added to new grp");
             HELPERS.createGroupEntry(msg.chat.id);
+            HELPERS.addAdministrators(msg.chat.id);
         }
         else {
             //New member added, send welcome

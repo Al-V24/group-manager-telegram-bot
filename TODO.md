@@ -7,6 +7,8 @@
 5. ~~Video/videonote control~~
 6. ~~Image control~~
 7. ~~Voice control~~
+8. Admin remove/add update  
+9. /report feature
 
 ##### Less important
 1. Don't send welcome message on self join

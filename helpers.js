@@ -207,6 +207,14 @@ function answerCallback(callback_query_id,text,show_alert,url) {
         });
 }
 
+// Function to get chat admins.Returns promise of data
+function getChatAdmins(chatID) {
+    return botapi.post("/getChatAdministrators",{
+        chat_id: chatID
+    })
+
+}
+
 /************************
  * BOT SPECIFIC FUNCTIONS
  ***********************/
@@ -302,6 +310,12 @@ function createGroupEntry(chatID) {
             return models.groupConfigs.create({
                 chat_id: chatID,
                 stickerControl: false
+            })
+        })
+        .then(()=>{
+            return models.admins.create({
+                chat_id: chatID,
+                admins: []
             })
         })
         .then(()=>{
@@ -411,8 +425,33 @@ function videoControlSet(chatID,val) {
         })
 }
 
+// Function to add admins to DB
+function addAdministrators(chatID) {
+    let admins = getChatAdmins(chatID);
+    admins
+        .then((resp)=>{
+            console.log(resp.data);
+            let adminIDs = [];
+            resp.data.result.forEach((adminInstance)=>{
+                adminIDs.push(adminInstance.user.id);
+            });
+            console.log(adminIDs);
+            models.admins.findOne({
+                chat_id: chatID
+            })
+                .then((adminDB)=>{
+                    adminDB.admins = adminIDs;
+                    adminDB.save();
+                })
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+}
+
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,answerCallback,processCallbacks,photoControlSet,voiceControlSet,videoControlSet
+    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,answerCallback,processCallbacks,photoControlSet,voiceControlSet,videoControlSet,addAdministrators
 };
 
 
