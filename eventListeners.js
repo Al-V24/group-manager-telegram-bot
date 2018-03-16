@@ -223,3 +223,22 @@ eventObj.on("video",(chatID,msgID,params)=>{
         HELPERS.sendMessage(chatID,PRESETS.VIDEO_ON_OFF,msgID);
     }
 });
+
+//Event listener for report feature
+eventObj.on("report",(chatID,msgID,params,msg)=>{
+    console.log("Message Reported");
+    if(msg.reply_to_message){
+        //Report the message to admin
+        HELPERS.createReport(chatID,msg.reply_to_message.text,msg.from.id,msg.reply_to_message.from.id)
+            .then((report)=>{
+                HELPERS.sendToAdmins(chatID,report);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+    else {
+        //No message tagged for report
+        HELPERS.sendMessage(chatID,PRESETS.REPORT_REPLY_TO);
+    }
+})

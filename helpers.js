@@ -212,6 +212,24 @@ function getChatAdmins(chatID) {
     return botapi.post("/getChatAdministrators",{
         chat_id: chatID
     })
+}
+
+// Function to get chat info
+function getChatInfo(chatID) {
+    return new Promise((resolve,reject)=>{
+        botapi.post("/getChat",{
+            chat_id: chatID
+        })
+            .then((resp)=>{
+                console.log(resp.data);
+
+                resolve(resp.data.result);
+            })
+            .catch((err) => {
+                console.log(err);
+                reject(err);
+            })
+    })
 
 }
 
@@ -450,8 +468,44 @@ function addAdministrators(chatID) {
 
 }
 
+// Function to send message to admins
+function sendToAdmins(chatID,text) {
+    models.admins.findOne({
+        chat_id: chatID
+    })
+        .then((adminObj)=>{
+            adminObj.admins.forEach((admin)=>{
+                sendMessage(admin,text);
+            })
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+// Function to create the report. Returns promise with report text inside
+function createReport(chatID,text,reporterID,reportedID) {
+    return new Promise((resolve,reject)=>{
+        getChatInfo(chatID)
+            .then((chatInfo)=>{
+                let chatdetail = chatInfo;
+                let reportText = `Group: ${chatdetail.title}\n
+                            Text: ${text} \n
+                            Reported By; ${reporterID} \n
+                            Reported User: ${reportedID} \n
+                            Link:`;
+                resolve(reportText);
+            })
+            .catch((err) => {
+                console.log(err);
+                reject(err);
+            })
+    })
+
+}
+
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,answerCallback,processCallbacks,photoControlSet,voiceControlSet,videoControlSet,addAdministrators
+    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,answerCallback,processCallbacks,photoControlSet,voiceControlSet,videoControlSet,addAdministrators,sendToAdmins,createReport
 };
 
 

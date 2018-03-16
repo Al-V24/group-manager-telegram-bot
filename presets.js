@@ -9,5 +9,6 @@ module.exports = {
     STICKER_ON_OFF: "Please write on or off after command.",
     PHOTO_ON_OFF: "Please write on or off after command.",
     VOICE_ON_OFF: "Please write on or off after command.",
-    VIDEO_ON_OFF: "Please write on or off after command."
+    VIDEO_ON_OFF: "Please write on or off after command.",
+    REPORT_REPLY_TO: "Please reply to a msg to report it"
 };
