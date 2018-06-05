@@ -38,6 +38,41 @@ app.post("/updates", (req, res, next) => {
     res.sendStatus(204);
     // HELPERS.sendMessage(msg.chat.id,msg.text);
 
+    if(msg){
+        models.groupConfigs.findOne({
+            chat_id: msg.chat.id
+        })
+            .then((config)=>{
+                if(config.adminMode === true){
+                    console.log("Admin-Only Mode on, checking sender...");
+
+                    // check if message was sent by an admin
+                    models.admins.findOne({
+                        chat_id: msg.chat.id
+                    })
+                        .then((adminsdb)=>{
+
+                            let adminlist = adminsdb.admins;
+                            let flag = false;
+                            for(admin of adminlist){
+                                if(admin == msg.from.id){
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                            if(!flag){
+                                // Message was not from admin
+                                // Admin Only mode on, so delete message
+                                console.log("Non-Admin User, Deleting message");
+                                HELPERS.deleteMessage(msg.chat.id,msg.message_id);
+                            }
+
+                        })
+
+
+                }
+            })
+    }
     //if message contains text, process it
     if (msg.text) {
 
@@ -51,6 +86,7 @@ app.post("/updates", (req, res, next) => {
             HELPERS.sendSavedMsg(msg.text, msg.chat.id);
         }
     }
+
     // if message is a sticker
     else if(msg.sticker){
         models.groupConfigs.findOne({
@@ -66,6 +102,7 @@ app.post("/updates", (req, res, next) => {
                 console.log(err);
             })
     }
+
     // if message is a photo
     else if(msg.photo){
         models.groupConfigs.findOne({
@@ -81,6 +118,7 @@ app.post("/updates", (req, res, next) => {
                 console.log(err);
             })
     }
+
     // if message is a voice note
     else if(msg.voice){
         models.groupConfigs.findOne({
@@ -96,6 +134,7 @@ app.post("/updates", (req, res, next) => {
                 console.log(err);
             })
     }
+
     // is message is a video
     else if(msg.video || msg.video_note){
         models.groupConfigs.findOne({
@@ -111,6 +150,7 @@ app.post("/updates", (req, res, next) => {
                 console.log(err);
             })
     }
+
     else if (msg.new_chat_member) {
         console.log("New chat member");
         // console.log(typeof msg.new_chat_member.id," ",typeof CONFIG.BOT.ID);
@@ -125,6 +165,7 @@ app.post("/updates", (req, res, next) => {
             HELPERS.sendWelcome(msg.new_chat_member, msg.chat);
         }
     }
+
     else if(msg.left_chat_member){
         if(msg.left_chat_member.id === CONFIG.BOT.ID){
             /// TODO: Bot left chat,delete stuff
@@ -133,6 +174,7 @@ app.post("/updates", (req, res, next) => {
             // TODO: Some member left
         }
     }
+
     // Group trnasition to supergroup
     else if(msg.migrate_to_chat_id){
         HELPERS.supergroupUpdate(msg.chat.id,msg.migrate_to_chat_id);

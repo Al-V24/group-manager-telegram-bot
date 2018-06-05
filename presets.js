@@ -10,5 +10,8 @@ module.exports = {
     PHOTO_ON_OFF: "Please write on or off after command.",
     VOICE_ON_OFF: "Please write on or off after command.",
     VIDEO_ON_OFF: "Please write on or off after command.",
+    ADMINMODE_ON_OFF: "Please write on or off after command.",
+    ADMINMODE_NOW_ON: "Admin Only Mode is now on. Messages from non-admins now auto-deleted",
+    ADMINMODE_NOW_OFF: "Admin Only Mode is now off. Messages from all users allowed",
     REPORT_REPLY_TO: "Please reply to a msg to report it"
 };

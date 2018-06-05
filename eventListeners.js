@@ -242,4 +242,22 @@ eventObj.on("report",(chatID,msgID,params,msg)=>{
         //No message tagged for report
         HELPERS.sendMessage(chatID,PRESETS.REPORT_REPLY_TO);
     }
-})
+});
+
+//Event listener for AdminMode feature
+eventObj.on("adminmode",(chatID,msgID,params)=>{
+    let setting = params.split(" ")[0];
+    if(setting === "on"){
+        console.log("Turning admin only mode ON");
+        HELPERS.adminModeSet(chatID,true);
+        HELPERS.sendMessage(chatID,PRESETS.ADMINMODE_NOW_ON,msgID);
+    }
+    else if(setting === "off"){
+        console.log("Turning admin only mode OFF");
+        HELPERS.sendMessage(chatID,PRESETS.ADMINMODE_NOW_OFF,msgID);
+        HELPERS.adminModeSet(chatID,false);
+    }
+    else {
+        HELPERS.sendMessage(chatID,PRESETS.ADMINMODE_ON_OFF,msgID);
+    }
+});

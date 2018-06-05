@@ -76,3 +76,13 @@ Off - Photos allowed
 `/report`  
 Reply to message with this command to report it.
 Bot PMs the admins with the message.
+
+
+##### Admin Only Mode
+Allows only admins to send messsages, all messages by non  
+admins are auto-deleted.
+This does not prevent any bot from sending messages as 
+Telegram API does not allow any interaction with other bots. Hence
+I do not have any clue as to what other bots are sending/receiving.
+Highly useful for spam control !!!
+`/adminmmode on/off`

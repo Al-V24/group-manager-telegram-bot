@@ -14,6 +14,10 @@ const GroupConfigsSchema = mongoose.Schema({
     videoControl: {
         type: Boolean,
         default: false
+    },
+    adminMode: {
+        type: Boolean,
+        default: false
     }
 });
 

@@ -452,6 +452,20 @@ function videoControlSet(chatID,val) {
         })
 }
 
+//Function to set admin only mode
+function adminModeSet(chatID,val) {
+    models.groupConfigs.findOne({
+        chat_id: chatID
+    })
+        .then((config)=>{
+            config.adminMode = val;
+            config.save();
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
 // Function to add admins to DB
 function addAdministrators(chatID) {
     let admins = getChatAdmins(chatID);
@@ -591,7 +605,7 @@ module.exports = {
     onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,
     sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,
     answerCallback,processCallbacks,photoControlSet,voiceControlSet,videoControlSet,addAdministrators,sendToAdmins,
-    createReport,supergroupUpdate
+    createReport,supergroupUpdate,adminModeSet
 };
 
 

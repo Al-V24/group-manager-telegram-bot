@@ -12,7 +12,7 @@
 10. ~~Group > Supergroup changes~~
 11. message link in report
 12. Process links etc to html/md
-13. Admin only mode
+13. ~~Admin only mode~~
 
 ##### Less important
 1. Don't send welcome message on self join
