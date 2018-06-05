@@ -133,6 +133,10 @@ app.post("/updates", (req, res, next) => {
             // TODO: Some member left
         }
     }
+    // Group trnasition to supergroup
+    else if(msg.migrate_to_chat_id){
+        HELPERS.supergroupUpdate(msg.chat.id,msg.migrate_to_chat_id);
+    }
 
 });
 

@@ -513,8 +513,85 @@ function createReport(chatID,text,reporterID,reportedID) {
 
 }
 
+// Function to update DBs on Group --> Supergroup transition
+function supergroupUpdate(chatID,new_chat_id){
+    console.log("Performing group transition",chatID," to ",new_chat_id);
+    models.admins.findOne({
+        chat_id: chatID
+    })
+        .then((dbentry)=>{
+            // Update admin DB
+            if(dbentry) {
+                dbentry.chat_id = new_chat_id;
+                dbentry.save();
+            }
+
+            return models.groupConfigs.findOne({
+                chat_id: chatID
+            })
+        })
+        .then((dbentry)=>{
+            // Update groupconfigs DB
+            if(dbentry){
+            dbentry.chat_id = new_chat_id;
+            dbentry.save();
+            }
+            return models.rules.findOne({
+                chat_id: chatID
+            })
+        })
+        .then((dbentry)=>{
+            // Update rules DB
+            if(dbentry) {
+                dbentry.chat_id = new_chat_id;
+                dbentry.save();
+            }
+
+            return models.savedmsg.findOne({
+                chat_id: chatID
+            })
+        })
+        .then((dbentry)=>{
+            // Update savedmsg DB
+            if(dbentry) {
+                dbentry.chat_id = new_chat_id;
+                dbentry.save();
+            }
+
+            return models.warns.findOne({
+                chat_id: chatID
+            })
+        })
+        .then((dbentry)=>{
+            // Update warns DB
+            if(dbentry) {
+                dbentry.chat_id = new_chat_id;
+                dbentry.save();
+            }
+
+            return models.wcmsg.findOne({
+                chat_id: chatID
+            })
+
+        })
+        .then((dbentry)=>{
+            // Update wcmsg DB
+            if(dbentry) {
+                dbentry.chat_id = new_chat_id;
+                dbentry.save();
+            }
+
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
 module.exports = {
-    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,answerCallback,processCallbacks,photoControlSet,voiceControlSet,videoControlSet,addAdministrators,sendToAdmins,createReport
+    onStart,getBotInfo,getWebhookInfo,sendMessage,changeTitle,kickUser,unbanUser,processCommands,sendSavedMsg,
+    sendAllSaved,sendWelcome,unpinMessage,pinMessage,createGroupEntry,warnUser,stickerControlSet,deleteMessage,
+    answerCallback,processCallbacks,photoControlSet,voiceControlSet,videoControlSet,addAdministrators,sendToAdmins,
+    createReport,supergroupUpdate
 };
 
 

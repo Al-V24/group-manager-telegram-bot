@@ -70,3 +70,9 @@ Off - Videos allowed
 On - No more photos  
 Off - Photos allowed  
 `/photos on/off`
+
+
+##### Report a message
+`/report`  
+Reply to message with this command to report it.
+Bot PMs the admins with the message.

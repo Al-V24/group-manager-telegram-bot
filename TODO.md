@@ -9,7 +9,7 @@
 7. ~~Voice control~~
 8. Admin remove/add update  
 9. ~~/report feature~~
-10. Group > Supergroup changes
+10. ~~Group > Supergroup changes~~
 11. message link in report
 12. Process links etc to html/md
 13. Admin only mode
@@ -17,7 +17,8 @@
 ##### Less important
 1. Don't send welcome message on self join
 2. If enter pressed after command instead of space, handle it
-3. pinchatmessage called in normal chat then tell error
+3. ~~pinchatmessage called in normal chat then tell error~~
 4. pin message notification setting
 5. Empty rules check
 6. Commands shouldn't work in PM with bot
+7. Acknowledge rules are set
