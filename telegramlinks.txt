@@ -1,0 +1,5 @@
+TO a user
+t.me/username
+
+TO a message
+t.me/grpUsername/Message_id
