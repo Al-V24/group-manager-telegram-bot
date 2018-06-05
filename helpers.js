@@ -134,6 +134,7 @@ function deleteMessage(chatID,msgID) {
         })
         .catch((err) => {
             console.log(err);
+            //TODO: Message can't be deleted error if bot not admin. Notify this to users !
         })
 }
 
@@ -240,12 +241,19 @@ function getChatInfo(chatID) {
 //Process Command
 function processCommands(msg) {
     // console.log("new command");
+
     //remove starting '/'
     let commandMsg = msg.text.slice(1).split(" ");
+
     //first word is command
     let command = commandMsg[0];
+
+    //rest words are params
     let params = commandMsg.slice(1).join(" ");
+
     console.log("Command: ",command," Params: ",params);
+
+    //Emit a event with name of command
     eventObj.emit(command,msg.chat.id,msg.message_id,params,msg);
 }
 
@@ -319,6 +327,7 @@ function sendWelcome(user,chat) {
 
 // Function to do work when bot first added to group
 function createGroupEntry(chatID) {
+    //TODO: either keep all old groups config, or delete grp config on exiting grp. In case 1, search db for already existing data
     console.log("Creating a group entry");
     models.warns.create({
         chat_id: chatID,

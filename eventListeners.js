@@ -70,6 +70,7 @@ eventObj.on("rules", (chatID, msgID) => {
 //Event listener for setting rules
 eventObj.on("setrules", (chatID, msgID, params) => {
     console.log("Setrules event fired");
+    //TODO: Handle empty rules text
     // let rules = params
     // let ruleText = params.split(" ").slice(1).join(" ");
     models.rules.findOne({

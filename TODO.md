@@ -20,3 +20,4 @@
 3. pinchatmessage called in normal chat then tell error
 4. pin message notification setting
 5. Empty rules check
+6. Commands shouldn't work in PM with bot

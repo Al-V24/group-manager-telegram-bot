@@ -16,10 +16,8 @@ app.use(express.urlencoded({
 
 app.use("/info", require("./routes/info"));
 
+app.use("/",express.static(__dirname + "/public_html"));
 
-app.get("/", (req, res) => {
-    res.send("home page");
-});
 
 app.post("/updates", (req, res, next) => {
     // console.log("post on update route");
@@ -40,6 +38,7 @@ app.post("/updates", (req, res, next) => {
     res.sendStatus(204);
     // HELPERS.sendMessage(msg.chat.id,msg.text);
 
+    //if message contains text, process it
     if (msg.text) {
 
         //Handle commands.Commands start with  '/'
@@ -52,12 +51,14 @@ app.post("/updates", (req, res, next) => {
             HELPERS.sendSavedMsg(msg.text, msg.chat.id);
         }
     }
+    // if message is a sticker
     else if(msg.sticker){
         models.groupConfigs.findOne({
             chat_id: msg.chat.id
         })
             .then((config)=>{
                 if(config.stickerControl === true){
+                    // sticker control on, hence delete message
                     HELPERS.deleteMessage(msg.chat.id,msg.message_id);
                 }
             })
@@ -65,12 +66,14 @@ app.post("/updates", (req, res, next) => {
                 console.log(err);
             })
     }
+    // if message is a photo
     else if(msg.photo){
         models.groupConfigs.findOne({
             chat_id: msg.chat.id
         })
             .then((config)=>{
                 if(config.photoControl === true){
+                    // photo control on, hence delete the photo
                     HELPERS.deleteMessage(msg.chat.id,msg.message_id);
                 }
             })
@@ -78,12 +81,14 @@ app.post("/updates", (req, res, next) => {
                 console.log(err);
             })
     }
+    // if message is a voice note
     else if(msg.voice){
         models.groupConfigs.findOne({
             chat_id: msg.chat.id
         })
             .then((config)=>{
                 if(config.voiceControl === true){
+                    // Voice message control on, hence delete the voice message
                     HELPERS.deleteMessage(msg.chat.id,msg.message_id);
                 }
             })
@@ -91,12 +96,14 @@ app.post("/updates", (req, res, next) => {
                 console.log(err);
             })
     }
+    // is message is a video
     else if(msg.video || msg.video_note){
         models.groupConfigs.findOne({
             chat_id: msg.chat.id
         })
             .then((config)=>{
                 if(config.videoControl === true){
+                    // Video message control on, hence delete the video message
                     HELPERS.deleteMessage(msg.chat.id,msg.message_id);
                 }
             })
