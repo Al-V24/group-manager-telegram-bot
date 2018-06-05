@@ -466,17 +466,26 @@ function adminModeSet(chatID,val) {
         })
 }
 
-// Function to add admins to DB
+// Function to add list of admins to DB
 function addAdministrators(chatID) {
+    //Get API response
     let admins = getChatAdmins(chatID);
+
+    //Process API response
     admins
         .then((resp)=>{
             console.log(resp.data);
+
+            //Initialize array to store list of Admins
             let adminIDs = [];
+
+            //Update values in array from API response
             resp.data.result.forEach((adminInstance)=>{
                 adminIDs.push(adminInstance.user.id);
             });
             console.log(adminIDs);
+
+            //Update DB with this array
             models.admins.findOne({
                 chat_id: chatID
             })
@@ -507,16 +516,17 @@ function sendToAdmins(chatID,text) {
 }
 
 // Function to create the report. Returns promise with report text inside
-function createReport(chatID,text,reporterID,reportedID) {
+function createReport(chatID,text,reporterID,reportedID,reportedMsgID,username) {
     return new Promise((resolve,reject)=>{
         getChatInfo(chatID)
             .then((chatInfo)=>{
                 let chatdetail = chatInfo;
-                let reportText = `Group: ${chatdetail.title}\n
-                            Text: ${text} \n
-                            Reported By; ${reporterID} \n
-                            Reported User: ${reportedID} \n
-                            Link:`;
+                let reportText = `Group: ${chatdetail.title}\n Text: ${text} \n
+                 Reported By: ${reporterID} \n
+                 Reported User: ${reportedID} \n`;
+                if(username){
+                    reportText += `Link: t.me/${username}/${reportedMsgID} `;
+                 }
                 resolve(reportText);
             })
             .catch((err) => {
@@ -607,5 +617,3 @@ module.exports = {
     answerCallback,processCallbacks,photoControlSet,voiceControlSet,videoControlSet,addAdministrators,sendToAdmins,
     createReport,supergroupUpdate,adminModeSet
 };
-
-

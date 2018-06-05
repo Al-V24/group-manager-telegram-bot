@@ -38,7 +38,26 @@ app.post("/updates", (req, res, next) => {
     res.sendStatus(204);
     // HELPERS.sendMessage(msg.chat.id,msg.text);
 
-    if(msg){
+    //New member in chat
+    if (msg.new_chat_member) {
+        console.log("New chat member");
+        // console.log(typeof msg.new_chat_member.id," ",typeof CONFIG.BOT.ID);
+        if (msg.new_chat_member.id === CONFIG.BOT.ID) {
+            //Bot added to new grp, do work
+            console.log("Bot added to new grp");
+
+            //Create DBs for new group
+            HELPERS.createGroupEntry(msg.chat.id);
+
+            //Update admins for new group
+            HELPERS.addAdministrators(msg.chat.id);
+        }
+        else {
+            //New member added, send welcome
+            HELPERS.sendWelcome(msg.new_chat_member, msg.chat);
+        }
+    }
+    else if(msg){
         models.groupConfigs.findOne({
             chat_id: msg.chat.id
         })
@@ -149,21 +168,6 @@ app.post("/updates", (req, res, next) => {
             .catch((err) => {
                 console.log(err);
             })
-    }
-
-    else if (msg.new_chat_member) {
-        console.log("New chat member");
-        // console.log(typeof msg.new_chat_member.id," ",typeof CONFIG.BOT.ID);
-        if (msg.new_chat_member.id === CONFIG.BOT.ID) {
-            //Bot added to new grp, do work
-            console.log("Bot added to new grp");
-            HELPERS.createGroupEntry(msg.chat.id);
-            HELPERS.addAdministrators(msg.chat.id);
-        }
-        else {
-            //New member added, send welcome
-            HELPERS.sendWelcome(msg.new_chat_member, msg.chat);
-        }
     }
 
     else if(msg.left_chat_member){

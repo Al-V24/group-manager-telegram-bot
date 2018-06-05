@@ -230,7 +230,7 @@ eventObj.on("report",(chatID,msgID,params,msg)=>{
     console.log("Message Reported");
     if(msg.reply_to_message){
         //Report the message to admin
-        HELPERS.createReport(chatID,msg.reply_to_message.text,msg.from.id,msg.reply_to_message.from.id)
+        HELPERS.createReport(chatID,msg.reply_to_message.text,msg.from.id,msg.reply_to_message.from.id,msg.reply_to_message.message_id,msg.chat.username)
             .then((report)=>{
                 HELPERS.sendToAdmins(chatID,report);
             })

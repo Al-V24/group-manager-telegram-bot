@@ -76,6 +76,8 @@ Off - Photos allowed
 `/report`  
 Reply to message with this command to report it.
 Bot PMs the admins with the message.
+The PMed message has a link to the message if the grp is
+a supergroup with defines username.
 
 
 ##### Admin Only Mode

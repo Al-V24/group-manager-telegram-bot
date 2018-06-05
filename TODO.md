@@ -10,7 +10,7 @@
 8. Admin remove/add update  
 9. ~~/report feature~~
 10. ~~Group > Supergroup changes~~
-11. message link in report
+11. ~~message link in report~~
 12. Process links etc to html/md
 13. ~~Admin only mode~~
 
@@ -22,3 +22,6 @@
 5. Empty rules check
 6. Commands shouldn't work in PM with bot
 7. Acknowledge rules are set
+8. Warn - count & reason
+9. Warn - Remove warn button
+10. Improve reported message presentation
