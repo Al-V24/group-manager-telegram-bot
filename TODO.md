@@ -21,7 +21,7 @@
 4. pin message notification setting
 5. ~~Empty rules check~~
 6. Commands shouldn't work in PM with bot
-7. Acknowledge rules are set
+7. ~~Acknowledge rules are set~~
 8. Warn - count & reason
 9. Warn - Remove warn button
 10. Improve reported message presentation

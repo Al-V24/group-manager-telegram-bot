@@ -70,7 +70,6 @@ eventObj.on("rules", (chatID, msgID) => {
 //Event listener for setting rules
 eventObj.on("setrules", (chatID, msgID, params) => {
     console.log("Setrules event fired");
-    //TODO: Handle empty rules text
     // let rules = params
     // let ruleText = params.split(" ").slice(1).join(" ");
     if(params === ""){
@@ -101,6 +100,8 @@ eventObj.on("setrules", (chatID, msgID, params) => {
                     rule.rules = params;
                     rule.save();
                 }
+                //Notify users that rules set successfully
+                HELPERS.sendMessage(chatID,PRESETS.RULES_SET_NOTIFY,msgID);
             })
     }
 });
