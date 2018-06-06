@@ -7,7 +7,7 @@
 5. ~~Video/videonote control~~
 6. ~~Image control~~
 7. ~~Voice control~~
-8. Admin remove/add update  
+8. Admin remove/add update ....Partially done
 9. ~~/report feature~~
 10. ~~Group > Supergroup changes~~
 11. ~~message link in report~~

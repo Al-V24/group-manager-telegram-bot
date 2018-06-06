@@ -261,3 +261,8 @@ eventObj.on("adminmode",(chatID,msgID,params)=>{
         HELPERS.sendMessage(chatID,PRESETS.ADMINMODE_ON_OFF,msgID);
     }
 });
+
+// Event listener for Admin List Refresh
+eventObj.on("refreshadmins",(chatID)=>{
+    HELPERS.addAdministrators(chatID);
+});

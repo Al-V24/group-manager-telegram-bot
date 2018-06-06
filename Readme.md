@@ -88,3 +88,7 @@ Telegram API does not allow any interaction with other bots. Hence
 I do not have any clue as to what other bots are sending/receiving.
 Highly useful for spam control !!!
 `/adminmmode on/off`
+
+##### Refresh Administrators List
+Use this command to refresh the list of administrators for a group.
+The bot will do this periodically(WIP),but currently requires users to use this command.
