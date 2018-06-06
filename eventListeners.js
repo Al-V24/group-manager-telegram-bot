@@ -73,30 +73,36 @@ eventObj.on("setrules", (chatID, msgID, params) => {
     //TODO: Handle empty rules text
     // let rules = params
     // let ruleText = params.split(" ").slice(1).join(" ");
-    models.rules.findOne({
-        chat_id: chatID
-    })
-        .then((rule) => {
-
-            //If rule does not exist
-            if (rule === null) {
-                models.rules.create({
-                    chat_id: chatID,
-                    rules: params
-                })
-                    .then((newrule) => {
-                        console.log("New rule entry: ", newrule);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    })
-            }
-            else {
-                //If rules exist, update them
-                rule.rules = params;
-                rule.save();
-            }
+    if(params === ""){
+        //if rules empty, notify user
+        HELPERS.sendMessage(chatID,PRESETS.RULES_EMPTY_TXT,msgID);
+    }
+    else {
+        models.rules.findOne({
+            chat_id: chatID
         })
+            .then((rule) => {
+
+                //If rule does not exist
+                if (rule === null) {
+                    models.rules.create({
+                        chat_id: chatID,
+                        rules: params
+                    })
+                        .then((newrule) => {
+                            console.log("New rule entry: ", newrule);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                }
+                else {
+                    //If rules exist, update them
+                    rule.rules = params;
+                    rule.save();
+                }
+            })
+    }
 });
 
 // Event listener for changing title

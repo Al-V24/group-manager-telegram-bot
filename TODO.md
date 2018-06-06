@@ -19,7 +19,7 @@
 2. If enter pressed after command instead of space, handle it
 3. ~~pinchatmessage called in normal chat then tell error~~
 4. pin message notification setting
-5. Empty rules check
+5. ~~Empty rules check~~
 6. Commands shouldn't work in PM with bot
 7. Acknowledge rules are set
 8. Warn - count & reason
